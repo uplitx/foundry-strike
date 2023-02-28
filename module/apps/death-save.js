@@ -19,7 +19,7 @@ export class DeathSaveDialog extends DocumentSheet {
 	/** @override */
 	getData() {
 		return {
-			data: this.object.system,
+			data: this.object.data.data,
 			rollModes: CONFIG.Dice.rollModes
 		};
 	}
@@ -28,7 +28,7 @@ export class DeathSaveDialog extends DocumentSheet {
 		const updateData = {};
 		
 		let message = `Rolling Death Saving Throw`;
-		const parts = [this.object.system.details.deathsavebon.value]
+		const parts = [this.object.data.data.details.deathsavebon.value]
 		if (formData.save) {
 			parts.push(formData.save)
 		}
@@ -44,27 +44,27 @@ export class DeathSaveDialog extends DocumentSheet {
 			rollMode: formData.rollMode
 		});
 		rollConfig.event = event;
-		rollConfig.critical = this.object.system.details.deathsaveCrit || 20;
-		rollConfig.fumble = 9 - formData.save - this.object.system.details.deathsavebon.value;
+		rollConfig.critical = this.object.data.data.details.deathsaveCrit || 20;
+		rollConfig.fumble = 9 - formData.save - this.object.data.data.details.deathsavebon.value;
 		const roll = await d20Roll(rollConfig);
 		
 		if(roll.total < 10)
 		{
-			updateData[`system.details.deathsavefail`] = this.object.system.details.deathsavefail + 1;
+			updateData[`data.details.deathsavefail`] = this.object.data.data.details.deathsavefail + 1;
 		}
-		if( roll.total < 10 && this.object.system.details.deathsavefail + 1 >= this.object.system.details.deathsaves)
+		if( roll.total < 10 && this.object.data.data.details.deathsavefail + 1 >= this.object.data.data.details.deathsaves)
 		{
 			await ChatMessage.create({
 				user: game.user.id,
 				speaker: ChatMessage.getSpeaker(),
-				content:this.object.name + game.i18n.localize("DND4EBETA.DeathSaveFailure")
+				content:this.object.data.name + game.i18n.localize("DND4EBETA.DeathSaveFailure")
 			});
 		}
 		else if(roll.total >= rollConfig.critical) {
 			await ChatMessage.create({
 				user: game.user.id,
 				speaker: ChatMessage.getSpeaker(),
-				content:this.object.name + game.i18n.localize("DND4EBETA.DeathSaveCriticalSuccess")
+				content:this.object.data.name + game.i18n.localize("DND4EBETA.DeathSaveCriticalSuccess")
 			});
 		}
 		console.log(roll.total)

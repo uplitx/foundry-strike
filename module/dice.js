@@ -51,7 +51,7 @@ export async function d20Roll({parts=[],  partsExpressionReplacements = [], data
 		const targetArr = Array.from(game.user.targets);
 		targDataArray.hasTarget = true;
 		for (let targ = 0; targ < numTargets; targ++) {
-			let targName = targetArr[targ].name;
+			let targName = targetArr[targ].data.name;
 			targDataArray.targNameArray.push(targName);
 		}
 	} else {
@@ -202,8 +202,8 @@ async function performD20RollAndCreateMessage(form, {parts, partsExpressionRepla
 			throw err
 		}
 		if (isAttackRoll && targets.length > rollExpressionIdx) {
-			let targName = targets[rollExpressionIdx].name;
-			let targDefVal = targets[rollExpressionIdx].document._actor.system.defences[options.attackedDef]?.value;
+			let targName = targets[rollExpressionIdx].data.name;
+			let targDefVal = targets[rollExpressionIdx].document._actor.data.data.defences[options.attackedDef]?.value;
 			targetData.targNameArray.push(targName);
 			targetData.targDefValArray.push(targDefVal);
 			targetData.targets.push(targets[rollExpressionIdx]);

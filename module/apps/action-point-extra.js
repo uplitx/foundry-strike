@@ -17,12 +17,12 @@ export class ActionPointExtraDialog extends DocumentSheet {
 
 	/** @override */
 	getData() {
-		return {system: this.object.system}
+		return {data: this.object.data.data}
 	}
 
 	async _updateObject(event, formData) {
 		const updateData = {};
-		for(let system in formData) { updateData[`${system}`] = formData[`${system}`];}
+		for(let data in formData) { updateData[`${data}`] = formData[`${data}`];}
 		return this.object.update(updateData);
 	}
 }

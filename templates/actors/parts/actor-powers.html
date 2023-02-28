@@ -3,8 +3,8 @@
 		<div class="group-powers" style="max-width: 144px;">
 			<input type="hidden" name="flags.dnd4eBeta.sheetDisplay.powers.groupBy.value">
 			<label for="power-group">GroupBy</label><br>
-			<select name="system.powerGroupTypes" style="min-width: 128px;">
-				{{#select system.powerGroupTypes}}
+			<select name="data.powerGroupTypes" style="min-width: 128px;">
+				{{#select data.powerGroupTypes}}
 				{{#each config.powerGroupTypes as |name type|}}
 				<option value="{{type}}">{{name}}</option>
 				{{/each}}
@@ -15,8 +15,8 @@
 		<div class="sort-powers" style="max-width: 144px;">
 			<input type="hidden" name="flags.dnd4eBeta.sheetDisplay.powers.sortBy.value">
 			<label for="power-sort">SortBy</label><br>
-			<select name="system.powerSortTypes" style="min-width: 128px;">
-				{{#select system.powerSortTypes}}
+			<select name="data.powerSortTypes" style="min-width: 128px;">
+				{{#select data.powerSortTypes}}
 				{{#each config.powerSortTypes as |name type|}}
 				<option value="{{type}}">{{name}}</option>
 				{{/each}}
@@ -27,7 +27,7 @@
 		<div class="filter-search-powers">
 			<label for="power-filter-search">Filter</label>
 			<button style="min-width: 116px; width:calc(100% - 80px); height: 17px; line-height:normal; border:0px; float:right; margin:2px 2px 0px 0px;" class="item-import button" title="Create Power" data-item-type="power" data-type="power" type="button">
-				<i style="min-width: 105.6px;" class="fas fa-atlas"> <span class="import-button">{{localize "DND4EBETA.ImportPowers"}}</span></i>
+				<i style="min-width: 105.6px;" class="fas fa-atlas"> Import Powers</i>
 			</button>
 			<br>
 			<input type="text" style="min-width: 168px; margin-right: 2px;" name="power-filter-search" placeholder="Search for power..." id="filterInput-power" onkeyup="filterPowers()"/>
@@ -47,8 +47,9 @@
 			{{else}}
 				<div class="item-detail item-range">Range</div>
 				<div class="item-detail item-action" title="{{localize 'DND4EBETA.Action'}}">Act.</div>
+				<!-- <div class="item-detail item-uses">{{localize "DND4EBETA.Charges"}}</div> -->
 				<div class="item-detail item-uses">{{localize "DND4EBETA.Charges"}}</div>
-			{{/if}}
+				{{/if}}
 				<div class="item-detail item-prep" title="Power Prepared">Prep.</div>
 			{{#if ../owner}}
 			<div class="item-controls">
@@ -66,9 +67,9 @@
 				<div class="item-name flexrow rollable" style="max-width: 30px; margin-right: 5px;">
 					<div class="item-image" style="background-image: url('{{item.img}}')"></div>					
 				</div>
-				<div class="flexrow {{#if item.system.useType }}ability-usage--{{item.system.useType}}{{else}}ability-usage--blank{{/if}} {{#if item.system.notAvailable}}not-available{{/if}}">
+				<div class="flexrow {{#if item.data.useType }}ability-usage--{{item.data.useType}}{{else}}ability-usage--blank{{/if}} {{#if item.data.notAvailable}}not-available{{/if}}">
 					<div class="item-name flexrow rollable">
-						<h4 class="power-detail" style="padding-left: 3px;">{{#if item.system.level}}[{{item.system.level}}]{{/if}}{{item.name}}</h4>
+						<h4 class="power-detail" style="padding-left: 3px;">{{#if item.data.level}}[{{item.data.level}}]{{/if}}{{item.name}}</h4>
 					</div>
 					
 					{{#if section.columns}}
@@ -85,36 +86,34 @@
 						</div>
 						{{/each}}
 					{{else}}
-						<div class="item-detail power-detail item-range" title="{{item.system.rangeText}}">
-							<label>{{item.system.rangeTextShort}}</label>
-							{{#if item.system.rangeTextBlock}}
-							<label style="background-color: rgba(77, 77, 77, 0.199); border-radius: 2px; padding-left: 2px; padding-right: 2px;">{{item.system.rangeTextBlock}}</label>
+						<div class="item-detail power-detail item-range" title="{{item.data.rangeText}}">
+							<label>{{item.data.rangeTextShort}}</label>
+							{{#if item.data.rangeTextBlock}}
+							<label style="background-color: rgba(77, 77, 77, 0.199); border-radius: 2px; padding-left: 2px; padding-right: 2px;">{{item.data.rangeTextBlock}}</label>
 							{{/if}}
 						</div>
-						<div class="item-detail power-detail item-action" title="{{lookup ../../config.abilityActivationTypes item.system.actionType}}" style="text-transform: uppercase;">
-							{{#if item.system.actionType }}
-							{{lookup ../../config.abilityActivationTypesShort item.system.actionType}}
+						<div class="item-detail power-detail item-action" title="{{lookup ../../config.abilityActivationTypes item.data.actionType}}" style="text-transform: uppercase;">
+							{{#if item.data.actionType }}
+							{{lookup ../../config.abilityActivationTypesShort item.data.actionType}}
 							{{/if}}
 						</div>
 						<div class="item-detail power-detail item-uses">
-							{{#if item.system.notAvailable}}
-								{{#if item.system.rechargeRoll}}
-								<a class="item-recharge rollable" title="Click to roll 1d6 and recharge power on a roll of {{item.system.rechargeRoll}} or higher">Recharge[+{{item.system.rechargeRoll}}]</a>
-								{{else if item.system.rechargeCondition}}
-								<a class="item-recharge rollable" title="Click to recharge power when the condition of &quot;{{item.system.rechargeCondition}}&quot; is met">Recharge[C]</a>
-								{{else if item.system.isOnCooldown}}
-								<a class="item-recharge rollable" title="Click to roll 1d6 and recharge power on a roll of {{item.system.rechargeRoll}} or higher">Recharge[+6]</a>
+							{{#if item.data.notAvailable}}
+								{{#if item.data.rechargeRoll}}
+								<a class="item-recharge rollable" title="Click to roll 1d6 and recharge power on a roll of {{item.data.rechargeRoll}} or higher">Recharge[+{{item.data.rechargeRoll}}]</a>
+								{{else if item.data.rechargeCondition}}
+								<a class="item-recharge rollable" title="Click to recharge power when the condition of &quot;{{item.data.rechargeCondition}}&quot; is met">Recharge[C]</a>
 								{{else}}
-								<input type="text" value="{{item.system.uses.value}}" placeholder="0"/>/ {{item.system.preparedMaxUses}}
+								<input type="text" value="{{item.data.uses.value}}" placeholder="0"/>/ {{item.data.preparedMaxUses}}
 								{{/if}}
 							{{else}}
 								{{#if item.hasUses}}
-								<input type="text" value="{{item.system.uses.value}}" placeholder="0"/>/ {{item.system.preparedMaxUses}}
+								<input type="text" value="{{item.data.uses.value}}" placeholder="0"/>/ {{item.data.preparedMaxUses}}
 								{{/if}}
 							{{/if}}
 						</div>
 					{{/if}}
-			
+
 					{{#if ../owner}}
 					<div class="item-controls flexrow">
 						<a class="item-control item-create" title="{{localize 'DND4EBETA.FeatureAdd'}}" {{#each section.dataset as |v k|}}data-{{k}}="{{v}}"{{/each}}>
@@ -122,7 +121,7 @@
 						</a>
 					</div>
 					{{/if}}
-		
+
 					{{#if section.columns}}
 						{{#each section.columns}}
 							<div class="item-detail {{css}}">

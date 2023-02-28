@@ -17,7 +17,7 @@ export default class HPOptions extends FormApplication {
 	/** @override */
 	getData() {
 		
-		return {system: this.object.system}
+		return {data: this.object.data.data}
 	}
 	
 	/* -------------------------------------------- */

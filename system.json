@@ -1,23 +1,13 @@
 {
-	"id": "dnd4e",
-	"title": "DnD 4th Edition",
-	"description": "An implementation of Dungeons & Dragons 4th Edition game system for Foundry Virtual Tabletop.",
-	"version": "0.3.20",
-	"compatibility":{
-		"minimum": 10,
-		"verified": 10,
-		"maximum": 10
-	},
+	"name": "strike",
+	"title": "Strike!",
+	"description": "Strike system module based on dnd4",
+	"version": "0.2.85",
+	"minimumCoreVersion": "0.8.5",
+	"compatibleCoreVersion": "9",
 	"templateVersion": 2,
-	"authors": [
-		{
-			"name": "EndlesNights",
-			"url": "https://github.com/EndlesNights",
-			"email": "endlesnights@gmail.com",
-			"discord": "endlesnights#9000"
-		  }
-	],
-	"relationships.requires": [
+	"author": "EndlesNights",
+	"dependencies": [
 		{ "name": "lib-wrapper" }
 	],
 	"esmodules": [
@@ -32,98 +22,98 @@
 			"label": "Example Alchemical Items",
 			"system": "dnd4e",
 			"path": "./packs/example_alchemy.db",
-			"type": "Item"
+			"entity": "Item"
 		},		
 		{
 			"name": "example_character",
 			"label": "Example Character",
 			"system": "dnd4e",
 			"path": "./packs/example_character.db",
-			"type": "Actor"
+			"entity": "Actor"
 		},
 		{
 			"name": "example_potions",
 			"label": "Example Potions & Poisons",
 			"system": "dnd4e",
 			"path": "./packs/example_potions.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "example_powers",
 			"label": "Example Powers",
 			"system": "dnd4e",
 			"path": "./packs/example_powers.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "example_feats",
 			"label": "Example Feats",
 			"system": "dnd4e",
 			"path": "./packs/example_feats.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "class_features",
 			"label": "Class Features",
 			"system": "dnd4e",
 			"path": "./packs/class_features.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "racial_features",
 			"label": "Racial Features",
 			"system": "dnd4e",
 			"path": "./packs/racial_features.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "srd_armour",
 			"label": "SRD Armour",
 			"system": "dnd4e",
 			"path": "./packs/srd_armour.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "srd_classes",
 			"label": "SRD Classes",
 			"system": "dnd4e",
 			"path": "./packs/srd_classes.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "srd_equipment",
 			"label": "SRD Equipment",
 			"system": "dnd4e",
 			"path": "./packs/srd_equipment.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "srd_races",
 			"label": "SRD Races",
 			"system": "dnd4e",
 			"path": "./packs/srd_races.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "srd_weapons",
 			"label": "SRD Weapons",
 			"system": "dnd4e",
 			"path": "./packs/srd_weapons.db",
-			"type": "Item"
+			"entity": "Item"
 		},
 		{
 			"name": "srd_rules",
 			"label": "SRD Rules",
 			"system": "dnd4e",
 			"path": "./packs/srd_rules.db",
-			"type": "JournalEntry"
+			"entity": "JournalEntry"
 		},
 		{
 			"name": "manual",
 			"label": "Manual & Help",
 			"system": "dnd4e",
 			"path": "./packs/manual.db",
-			"type": "JournalEntry"
+			"entity": "JournalEntry"
 		}
 	],
 	"languages": [
@@ -138,11 +128,7 @@
 	"gridUnits": "sq",
 	"primaryTokenAttribute": "attributes.hp",
 	"secondaryTokenAttribute": "attributes.temphp",
-  	"url": "https://github.com/EndlesNights/dnd4eBeta",
-	"manifest": "https://raw.githubusercontent.com/EndlesNights/dnd4eBeta/main/system.json",
-	"download": "https://github.com/EndlesNights/dnd4eBeta/archive/0.3.20.zip",
-	  "flags": {
-    "needsMigrationVersion": "0.3.9",
-    "compatibleMigrationVersion": "0.2.50"
-  }
+  	"url": "https://github.com/uplitx/foundry-strike",
+	"manifest": "https://raw.githubusercontent.com/uplitx/foundry-strike/main/system.json",
+	"download": "https://github.com/uplitx/foundry-strike/archive/refs/heads/main.zip"
 }

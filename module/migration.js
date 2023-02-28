@@ -3,8 +3,7 @@
  * @return {Promise}      A Promise which resolves once the migration is completed
  */
  export const migrateWorld = async function() {
-	const version = game.system.version;
-	ui.notifications.info(game.i18n.format("MIGRATION.4eBegin", {version}), {permanent: true});
+	ui.notifications.info(`Applying DnD4E System Migration for version ${game.system.data.version}. Please be patient and do not close your game or shut down your server.`, {permanent: true});
 
 	const migrationData = await getMigrationData();
 
@@ -12,7 +11,7 @@
 	for ( let a of game.actors ) {
 		try {
 			const updateData = migrateActorData(a.toObject(), migrationData);
-			if ( !foundry.utils.isEmpty(updateData) ) {
+			if ( !foundry.utils.isObjectEmpty(updateData) ) {
 				console.log(`Migrating Actor document ${a.name}`);
 				await a.update(updateData, {enforceTypes: false});
 			}
@@ -26,7 +25,7 @@
 	for ( let i of game.items ) {
 		try {
 			const updateData = migrateItemData(i.toObject(), migrationData);
-			if ( !foundry.utils.isEmpty(updateData) ) {
+			if ( !foundry.utils.isObjectEmpty(updateData) ) {
 				console.log(`Migrating Item document ${i.name}`);
 				await i.update(updateData, {enforceTypes: false});
 			}
@@ -39,8 +38,8 @@
 	// Migrate Actor Override Tokens
 	for ( let s of game.scenes ) {
 		try {
-			const updateData = migrateSceneData(s, migrationData);
-			if ( !foundry.utils.isEmpty(updateData) ) {
+			const updateData = migrateSceneData(s.data, migrationData);
+			if ( !foundry.utils.isObjectEmpty(updateData) ) {
 				console.log(`Migrating Scene document ${s.name}`);
 				await s.update(updateData, {enforceTypes: false});
 				// If we do not do this, then synthetic token actors remain in cache
@@ -61,9 +60,8 @@
 	}
 
 	// Set the migration as complete
-	game.settings.set("dnd4e", "systemMigrationVersion", game.system.version);
-	ui.notifications.info(game.i18n.format("MIGRATION.4eComplete", {version}), {permanent: true});
-
+	game.settings.set("dnd4e", "systemMigrationVersion", game.system.data.version);
+	ui.notifications.info(`DnD4E System Migration to version ${game.system.data.version} completed!`, {permanent: true});
 };
 
 /* -------------------------------------------- */
@@ -99,12 +97,12 @@ export const migrateCompendium = async function(pack) {
 					updateData = migrateItemData(doc.toObject(), migrationData);
 					break;
 				case "Scene":
-					updateData = migrateSceneData(doc, migrationData);
+					updateData = migrateSceneData(doc.data, migrationData);
 					break;
 			}
 
 			// Save the entry, if data was changed
-			if ( foundry.utils.isEmpty(updateData) ) continue;
+			if ( foundry.utils.isObjectEmpty(updateData) ) continue;
 			await doc.update(updateData);
 			console.log(`Migrated ${documentName} document ${doc.name} in Compendium ${pack.collection}`);
 		}
@@ -132,14 +130,42 @@ export const migrateCompendium = async function(pack) {
  * @return {Object}         The updateData to apply
  */
 export const migrateActorData = function(actor, migrationData) {
+	console.trace()
 	const updateData = {};
 
 	// Actor Data Updates
-	if (actor) {
+	if (actor.data) {
+		// _migrateActorMovement(actor, updateData);
+		// _migrateActorSenses(actor, updateData);
+		// _migrateActorType(actor, updateData);
+
 		_migrateActorTempHP(actor, updateData);
-		_migrateActorAddProfKeys(actor, updateData);
 	}
 
+
+	// // Migrate Owned Items
+	// if ( !actor.items ) return updateData;
+	// const items = actor.items.reduce((arr, i) => {
+	// 	// Migrate the Owned Item
+	// 	const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
+	// 	let itemUpdate = migrateItemData(itemData, migrationData);
+
+	// 	// Prepared, Equipped, and Proficient for NPC actors
+	// 	if ( actor.type === "npc" ) {
+	// 		// if (getProperty(itemData.data, "preparation.prepared") === false) itemUpdate["data.preparation.prepared"] = true;
+	// 		// if (getProperty(itemData.data, "equipped") === false) itemUpdate["data.equipped"] = true;
+	// 		// if (getProperty(itemData.data, "proficient") === false) itemUpdate["data.proficient"] = true;
+	// 	}	
+
+	// 	// Update the Owned Item
+	// 	if ( !isObjectEmpty(itemUpdate) ) {
+	// 		itemUpdate._id = itemData._id;
+	// 		arr.push(expandObject(itemUpdate));
+	// 	}
+
+	// 	return arr;
+	// }, []);
+	// if ( items.length > 0 ) updateData.items = items;
 	return updateData;
 };
 
@@ -156,7 +182,7 @@ function cleanActorData(actorData) {
 
 	// Scrub system data
 	const model = game.system.model.Actor[actorData.type];
-	actorData = filterObject(actorData, model);
+	actorData.data = filterObject(actorData.data, model);
 
 	// Scrub system flags
 	const allowedFlags = CONFIG.DND4EBETA.allowedActorFlags.reduce((obj, f) => {
@@ -181,7 +207,8 @@ function cleanActorData(actorData) {
  */
 export const migrateItemData = function(item) {
 	const updateData = {};
-	_migrateImplmentKey(item, updateData);
+	// _migrateItemAttunement(item, updateData);
+	// _migrateItemSpellcasting(item, updateData);
 	return updateData;
 };
 
@@ -256,76 +283,26 @@ export const getMigrationData = async function() {
  * @private
  */
  function _migrateActorTempHP(actorData, updateData) {
-	const ad = actorData.system;
-	if(!ad) return updateData;
-
-	const old = ad?.attributes?.hp?.temphp;
-	const hasOld = old !== undefined && ad.attributes[`hp-=temphp`] !== undefined;
+	const ad = actorData.data;	
+	const old = ad.attributes.hp.temphp;
+	const hasOld = old !== undefined;
 	if ( hasOld ) {
+
 		// If new data is not present, migrate the old data
-		if (old !== undefined && ad.attributes?.temphp?.value !== old && (typeof old === "number") ) {
-			ad.attributes.temphp = {
+		if (ad.attributes?.temphp?.value !== old && (typeof old === "number") ) {
+			console.log("setFooBar")
+			updateData["data.attributes.temphp"] = {
 				value: old,
 				max: 10,
 			}
 		}
 
 		// Remove the old attribute
-		if(ad.attributes.hp.temphp !== undefined){
-			updateData["system.attributes.-=temphp"] = null;
-		}
-
-		if(ad.attributes[`hp-=temphp`] !== undefined){
-			updateData["system.attributes.-=hp-=temphp"] = null;
-		}
+		updateData["data.attributes.hp.-=temphp"] = null;
 	}
 	return updateData;
 }
 
-/**
- * Migrate the actor adding in object keys for proficiencies
- * @param {object} actorData   Actor data being migrated.
- * @param {object} updateData  Existing updates being applied to actor. *Will be mutated.*
- * @returns {object}           Modified version of update data.
- * @private
- */
- function _migrateActorAddProfKeys(actorData, updateData) {
-	if(!actorData?.system?.details) return;
-
-	if(actorData.system.details.armourProf == undefined){
-		updateData["system.details"] = {
-			"value": [],
-			"custom": ""
-		}
-	}
-	if(actorData.system.details.weaponProf == undefined){
-		updateData["system.details"] = {
-			"value": [],
-			"custom": ""
-		}
-	}
-
-	return updateData;
- }
-
-
-/**
- * Migrate any data from the key "implementGroup" to the key of "implment"
- * @param {object} itemData   Item data being migrated.
- * @param {object} updateData  Existing updates being applied to item. *Will be mutated.*
- * @returns {object}           Modified version of update data.
- * @private
- */
- function _migrateImplmentKey(itemData, updateData){
-	if(itemData.type !== "weapon" && itemData.system.implementGroup != undefined) return;
-
-	const implementData = itemData.system.implementGroup;
-
-	updateData["system.-=implementGroup"] = null;
-	updateData["system.implement"] = implementData;
-
-	return updateData;
- }
 /**
  * A general tool to purge flags from all entities in a Compendium pack.
  * @param {Compendium} pack   The compendium pack to clean
@@ -339,9 +316,9 @@ export async function purgeFlags(pack) {
 	await pack.configure({locked: false});
 	const content = await pack.getContent();
 	for ( let doc of content ) {
-		const update = {flags: cleanFlags(doc.flags)};
+		const update = {flags: cleanFlags(doc.data.flags)};
 		if ( pack.documentName === "Actor" ) {
-			update.items = doc.items.map(i => {
+			update.items = doc.data.items.map(i => {
 			i.flags = cleanFlags(i.flags);
 			return i;
 			});

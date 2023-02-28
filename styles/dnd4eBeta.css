@@ -50,10 +50,6 @@
 	font-size: 12px;
 }
 
-.dnd4eBeta.sheet select {
-	font-size: revert;
-}
-
 .dnd4eBeta.sheet .sheet-header .summary {
 	flex: 0 0 100%;
 	height: 40px;
@@ -82,7 +78,7 @@
 	border: 1px solid transparent;
 }
 .dnd4eBeta .window-content {
-	/* overflow-y: hidden; */
+	overflow-y: hidden;
 	padding: 5px;
 }
 .dnd4eBeta.sheet .window-content form {
@@ -512,6 +508,33 @@
 	overflow-y: auto;
 	align-content: flex-start;
 }
+
+
+.ability-usage--atwill-class {
+	background: -o-linear-gradient(45deg, #7dbc87, #7dbc87);
+	background: linear-gradient(45deg, #7dbc87, #7dbc87);
+	color: black;}
+.ability-usage--encounter-class {
+	background: -o-linear-gradient(45deg, #be4dbc, #be4dbc);
+	background: linear-gradient(45deg, #be4dbc, #be4dbc);
+	color: black;}
+.ability-usage--atwill-role {
+	background: -o-linear-gradient(45deg, #4e8cb7, #4e8cb7);
+	background: linear-gradient(45deg, #4e8cb7, #4e8cb7);
+	color: black;}
+.ability-usage--encounter-role {
+	background: -o-linear-gradient(45deg, #bd4b4d, #bd4b4d);
+	background: linear-gradient(45deg, #bd4b4d, #bd4b4d);
+	color: black;}
+.ability-usage--atwill-move {
+	background: -o-linear-gradient(45deg, #ff9300, #ff9300);
+	background: linear-gradient(45deg, #ff9300, #ff9300);
+	color: black;}
+.ability-usage--encounter-move {
+	background: -o-linear-gradient(45deg, #4dc6ee, #4dc6ee);
+	background: linear-gradient(45deg, #4dc6ee, #4dc6ee);
+	color: black;}
+
 
 .ability-usage--atwill {
 	background: -o-linear-gradient(45deg, #125f15, #55aa2e);
@@ -995,13 +1018,34 @@
 	width: 10px !important;
 	
 }
-
+.dnd4eBeta.sheet.actor .tab.attributes {
+	/* overflow: hidden; */
+}
 .dnd4eBeta.sheet.actor .scrollbar {
 	height: 100%;
 	overflow-y: scroll;
 	scrollbar-width: thin;
 }
+.dnd4eBeta.sheet.actor ul.attributes {
+	/* flex: 0 0 60px; */
+	
+	/* list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 20%;
+	height: calc(100% - 18px);
+	display: inline; */
 
+	/* flex: 0 0 100%;
+	margin: 0; */
+}
+.dnd4eBeta.sheet.actor ul.attributes li{
+	/* width:25%; */
+	/* margin-right: 25%; */
+	/* display: inline; */
+	/* flex: 0 0 100%;
+	margin: 0; */
+}
 .dnd4eBeta.sheet.actor ul.attributes li.attribute-health {
 	height: 80px;
 	margin: 0 0 0 0;
@@ -1055,6 +1099,22 @@
 	position: relative;
 	top: 5px;
 }
+.dnd4eBeta.sheet.actor .hitpoints {
+	/* display: flex; */
+	/* flex-direction: row; */
+	/* flex-wrap: wrap; */
+	/* justify-content: flex-start; */
+}
+
+/* .dnd4eBeta.sheet.actor h4.box-title { */
+	/* text-align: center; */
+	/* height: 18px; */
+	/* line-height: 16px; */
+	/* margin: 4px 8px 2px; */
+	/* font-size: 18px; */
+	/* color: #4b4a44; */
+	/* border-bottom: 1px solid #c9c7b8; */
+/* } */
 
 .dnd4eBeta.sheet.actor .box-title-hit {
 	text-align: center;
@@ -1544,17 +1604,27 @@ font-size: 12px;
 	line-height: 18px;
 }
 
+
+
+
+
+
 .dnd4eBeta .editor,
 .dnd4eBeta .editor-content {
 	height: 100%;
-	margin-top: 0px;
 }
 .dnd4eBeta .item-list {
 	list-style: none;
 	margin: 7px 0;
 	padding: 0;
+	/* overflow-y: auto; */
 }
-
+/* .dnd4eBeta .item-list .item { */
+	/* height: 30px; */
+	/* line-height: 24px; */
+	/* padding: 3px 0; */
+	/* border-bottom: 1px solid #BBB; */
+/* } */
 .dnd4eBeta .item-list .item img {
 	flex: 0 0 24px;
 	margin-right: 5px;
@@ -1645,10 +1715,6 @@ font-size: 12px;
 	margin: 4px 0 8px;
 	padding: 0;
 	font-size: 12px;
-}
-
-.dnd4eBeta.sheet.actor .inventory h3{
-	border-bottom: 0px;
 }
 .dnd4eBeta.sheet.actor .inventory .currency label {
 	flex: 0;
@@ -1742,11 +1808,6 @@ font-size: 12px;
 	scrollbar-width: thin;
 	height: calc(100% - 118px);
 }
-
-.dnd4eBeta.sheet.actor .inventory-list .import-button{
-	font-size: 15px;
-	font-family: "Signika, sans-serif";
-}
 .dnd4eBeta.sheet .items-list {
 	list-style: none;
 	margin: 0;
@@ -1756,6 +1817,7 @@ font-size: 12px;
 	/* color: #7a7971; */
 	color: #363632;
 }
+
 .dnd4eBeta.sheet .items-list .item {
 	line-height: 30px;
 	padding: 0 2px;
@@ -1823,9 +1885,9 @@ font-size: 12px;
 	margin: 0 -5px 0 0;
 	padding-left: 5px;
 	font-family: "Modesto Condensed", "Palatino Linotype", serif;
+	font-size: 20px;
 	font-weight: 700;
 	font-size: 16px;
-	border-bottom: 0px;
 }
 .dnd4eBeta.sheet .items-list .items-header .item-controls a.item-create,
 .dnd4eBeta.sheet .items-list .items-header .item-controls a.power-create {
@@ -1855,7 +1917,6 @@ font-size: 12px;
 	border-right: 0px;
 }
 
-.dnd4eBeta.sheet .powers .items-list .not-available .item-detail input,
 .dnd4eBeta.sheet .items-list .not-available .power-detail,
 .dnd4eBeta.sheet .items-list .not-available input {
 	color: #e0e0e075;
@@ -2201,7 +2262,8 @@ font-size: 12px;
 .dnd4eBeta.chat-card .card-header img {
 	flex: 0 0 36px;
 	margin-right: 5px;
-	display: flex;
+	
+		display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: flex-start;
@@ -2210,12 +2272,10 @@ font-size: 12px;
 	flex: 1;
 	margin: 0;
 	line-height: 36px;
-	font-family: "Modesto Condensed", "Palatino Linotype", serif;
+	font-family: "Adobe Thai Regular", serif;
 	font-size: 20px;
 	font-weight: 700;
-	color: #e0e0e0;
-	border-bottom: 0px;
-	padding-left: 3px;
+	color: black;
 }
 .dnd4eBeta.chat-card .card-header h3:hover {
 	color: #111;
@@ -2223,7 +2283,6 @@ font-size: 12px;
 }
 .dnd4eBeta.chat-card .card-content {
 	margin: 5px 0;
-	background: linear-gradient(90deg, #c3c2b7, #c3c2b718);
 }
 .dnd4eBeta.chat-card .card-content h3 {
 	font-size: 12px;
@@ -2318,11 +2377,7 @@ font-size: 12px;
 	color: #4b4a44;
 }
 
-.dnd4eBeta .item-details span{
-	margin: 1px;
-	color: #000;
-}
-.dnd4eBeta .item-details>span,
+.dnd4eBeta .item-details span,
 .dnd4eBeta .item-details p,
 .dnd4eBeta .item-description p {
 	padding-left: 3px;
@@ -2330,17 +2385,8 @@ font-size: 12px;
 	margin: 1px;
 	color: #000;
 }
-.dnd4eBeta .item-details .action+.range-type{
-	padding-left:1em;
-}
-.dnd4eBeta .item-details .usage,
-.dnd4eBeta .item-details .keywords,
-.dnd4eBeta .item-details .action,
-.dnd4eBeta .item-details .range-type{
-	font-weight:bold;
-}
 
-.dnd4eBeta .item-description,
+.dnd4eBeta .item-description p ,
 .dnd4eBeta .item-details .alt{
 	/* background-color: #c3c2b7; */
 	/* background-color: linear-gradient(45deg, #c3c2b7, #c3c2b796) */
@@ -2352,6 +2398,7 @@ span.flavor-text.critical,
 span.flavor-text.fumble {
 	font-weight: bold;
 }
+
 .dice-roll .dice-total.success {
 	color: inherit;
 	background: #c7d0c0;
@@ -2368,17 +2415,6 @@ span.flavor-text.fumble {
 .dice-roll .dice-total.fumble {
 	color: red;
 }
-.dice-roll .hit-prediction::before{
-	content:"\1F894";
-	display:inline-block;
-	margin-right:5px;
-}
-.dice-roll .hit-prediction.critical{
-	color:green;
-}
-.dice-roll .hit-prediction.fumble{
-	color:red;
-}
 /* ----------------------------------------- */
 /* Trait Selector
 /* ----------------------------------------- */
@@ -2390,10 +2426,6 @@ span.flavor-text.fumble {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-}
-
-#trait-selector .trait-list .trait-list {
-	padding-left: 20px;
 }
 #trait-selector input[type="text"] {
 	height: 18px;

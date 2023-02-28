@@ -17,7 +17,7 @@ export class ItemImporterDialog extends DocumentSheet {
 
 	/** @override */
 	getData() {
-		return {system: this.object.system}
+		return {data: this.object.data.data}
 	}
 	async _updateObject(event, formData) {
 		let obj = "";

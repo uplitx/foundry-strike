@@ -16,12 +16,13 @@ export class AttributeBonusDialog extends DocumentSheet {
 	
 	get title() {		
 		return `${this.object.name} - ${this.options.label}`;
+		// return `${this.object.name} - ${Helper.byString(this.options.target + ".label", this.object.data)} ${this.options.label}`;
 	}
 	
 	/** @override */
 	getData() {
-		const system = Helper.byString(this.options.target, this.object);
-		return {bonusData: system.bonus, system: system, options: this.options};
+		const data = Helper.byString(this.options.target, this.object.data);
+		return {bonusData: data.bonus, data: data, options: this.options};
 	}
 	
 	async _updateObject(event, formData) {
@@ -37,18 +38,18 @@ export class AttributeBonusDialog extends DocumentSheet {
 		}
 		updateData[`${this.options.target}.bonus`] = newBonus;
 		if(this.options?.skill) {
-			updateData[`${this.options.target}.armourCheck`] = formData["system.armourCheck"];
+			updateData[`${this.options.target}.armourCheck`] = formData["data.armourCheck"];
 			this.position.height = Math.max(1, count) * 76 + 119;
 		} else if(this.options?.ac) {
-			updateData[`${this.options.target}.light`] = formData["system.light"];
-			updateData[`${this.options.target}.altability`] = formData["system.altability"];
+			updateData[`${this.options.target}.light`] = formData["data.light"];
+			updateData[`${this.options.target}.altability`] = formData["data.altability"];
 			this.position.height = Math.max(1, count) * 76 + 124;
 		} else if(this.options?.init) {
-			updateData[`${this.options.target}.ability`] = formData["system.ability"];
+			updateData[`${this.options.target}.ability`] = formData["data.ability"];
 		}
 		else if(this.options?.secondWind){
 			console.log(formData["custom"])
-			updateData[`${this.options.target}.custom`] = formData["system.custom"];
+			updateData[`${this.options.target}.custom`] = formData["data.custom"];
 		} else {
 			this.position.height = Math.max(1, count) * 76 + 91;
 		}
@@ -67,7 +68,7 @@ export class AttributeBonusDialog extends DocumentSheet {
 	
 	_onBonusAdd(event) {
 		event.preventDefault();
-		const bonusData = Helper.byString(this.options.target, this.object).bonus;
+		const bonusData = Helper.byString(this.options.target, this.object.data).bonus;
 		const newBonus =[{}];
 		this.position.height += 76;
 		return this.object.update({[`${this.options.target}.bonus`]: bonusData.concat(newBonus)});
@@ -76,7 +77,7 @@ export class AttributeBonusDialog extends DocumentSheet {
 	_onBonusDelete(event) {
 		event.preventDefault();
 		const div = event.currentTarget.closest(".bonus-part");
-		const bonus = duplicate(Helper.byString(this.options.target, this.object).bonus);
+		const bonus = duplicate(Helper.byString(this.options.target, this.object.data).bonus);
 		bonus.splice(Number(div.dataset.bonusPart), 1);
 		this.position.height -= 76;
 		return this.object.update({[`${this.options.target}.bonus`]: bonus});

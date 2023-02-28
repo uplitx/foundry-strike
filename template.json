@@ -187,14 +187,6 @@
 				"saves": {
 					"bonus": [{}],
 					"value": 0
-				},
-				"weaponProf": {
-					"value": [],
-					"custom": ""
-				},
-				"armourProf": {
-					"value": [],
-					"custom": ""
 				}
 			},
 			"languages": {
@@ -516,11 +508,6 @@
 				}
 				
 			},
-			"untypedResistances": {
-				"resistances" : [],
-				"vulnerabilities" : [],
-				"immunities" : []
-			},
 			"encumbrance": {
 				"value": null,
 				"max": null,
@@ -574,7 +561,6 @@
 			"weight": "",
 			"alignment": "",
 			"deity": "",
-			"equipment": "",
 			
 			"secondwind": false,
 			"deathsaves": 3,
@@ -755,7 +741,7 @@
 				"isDamage": true,
 				"isHealing": false,
 				"healSurge": "",
-				"baseQuantity": "1",
+				"baseQuantity": 1,
 				"baseDiceType": "Base Weapon Damage",
 				"detail": "1[W] + Strength modifier damage.",
 				"formula": "@powBase + @powerMod + @wepDamage + @dmgMod",
@@ -899,7 +885,7 @@
 		"attribute": "abilities.int.mod",
 		"chatFlavor": "",
 		"formula": "",
-		"bonus": "2"
+		"bonus": 2
 	},
 	"weapon": {
 		"templates": ["itemDescription", "physicalItem", "activatedEffect" , "mountable", "itemMacro"],
